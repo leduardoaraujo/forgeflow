@@ -1,0 +1,7 @@
+[pypi]
+username = __token__
+password = pypi-AgEIcHlwaS5vcmc...
+
+[testpypi]
+username = __token__
+password = pypi-AgENdGVzdC5weXBpLm9yZw...

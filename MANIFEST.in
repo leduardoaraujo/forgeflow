@@ -1,0 +1,9 @@
+include README.md
+include LICENSE
+include CHANGELOG.md
+include CONTRIBUTING.md
+include logo_forgeflow.svg
+recursive-include forgeflow *.py
+recursive-include config *.yaml
+recursive-exclude * __pycache__
+recursive-exclude * *.py[co]

@@ -6,7 +6,7 @@ readme = "README.md"
 requires-python = ">=3.11"
 license = {file = "LICENSE"}
 authors = [
-    {name = "Luiz Araujo", email = "luiz.araujo@example.com"}
+    {name = "Luiz Araujo", email = "luiz.dataeng@gmail.com"}
 ]
 keywords = [
     "etl",
