@@ -1,8 +1,8 @@
 from datetime import datetime, timezone
 from typing import Any
 
-from dataforge.core.exceptions import TransformerException
-from dataforge.core.transformer import BaseTransformer
+from forgeflow.core.exceptions import TransformerException
+from forgeflow.core.transformer import BaseTransformer
 
 
 class JsonNormalizer(BaseTransformer):

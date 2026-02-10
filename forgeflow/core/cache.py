@@ -27,7 +27,7 @@ class CacheConfig:
         ttl: Optional[float] = 3600.0,
         max_size: Optional[int] = 100,
         backend: str = "memory",
-        cache_dir: str = ".cache/dataforge",
+        cache_dir: str = ".cache/forgeflow",
     ):
         self.ttl = ttl
         self.max_size = max_size
@@ -136,7 +136,7 @@ class DiskCache:
         ttl: Time to live in seconds (None for no expiration)
     """
 
-    def __init__(self, cache_dir: str = ".cache/dataforge", ttl: Optional[float] = 3600.0):
+    def __init__(self, cache_dir: str = ".cache/forgeflow", ttl: Optional[float] = 3600.0):
         self.cache_dir = Path(cache_dir)
         self.ttl = ttl
         self.cache_dir.mkdir(parents=True, exist_ok=True)

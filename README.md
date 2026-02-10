@@ -1,7 +1,7 @@
 <div align="center">
-  <img src="logo_forgeflow.svg" alt="DataForge Logo" width="400"/>
+  <img src="logo_forgeflow.svg" alt="ForgeFlow Logo" width="400"/>
 
-  # DataForge
+  # ForgeFlow
 
   Modern ETL Framework for API Ingestion and Data Distribution
 
@@ -15,7 +15,7 @@
 
 ## Overview
 
-DataForge is a modern ETL framework designed for API data ingestion, transformation, and distribution. Built with async-first architecture using Python 3.11+, it provides a declarative YAML-based configuration system for building robust data pipelines.
+ForgeFlow is a modern ETL framework designed for API data ingestion, transformation, and distribution. Built with async-first architecture using Python 3.11+, it provides a declarative YAML-based configuration system for building robust data pipelines.
 
 ## Key Features
 
@@ -94,12 +94,12 @@ pipelines:
 
 ```bash
 # CLI
-dataforge run api_to_duckdb
+forgeflow run api_to_duckdb
 
 # Python
 python -c "
-from dataforge.pipeline.executor import PipelineExecutor
-from dataforge.pipeline.loader import PipelineLoader
+from forgeflow.pipeline.executor import PipelineExecutor
+from forgeflow.pipeline.loader import PipelineLoader
 import asyncio
 
 pipelines = PipelineLoader.load_from_file('config/pipelines.yaml')
@@ -119,17 +119,17 @@ duckdb data/output.duckdb -c "SELECT * FROM api_data LIMIT 10"
 ## CLI Commands
 
 ```bash
-dataforge list              # List all configured pipelines
-dataforge run <name>        # Execute a pipeline
-dataforge test <name>       # Test pipeline connection
-dataforge validate          # Validate configuration
-dataforge init <name>       # Create new pipeline template
+forgeflow list              # List all configured pipelines
+forgeflow run <name>        # Execute a pipeline
+forgeflow test <name>       # Test pipeline connection
+forgeflow validate          # Validate configuration
+forgeflow init <name>       # Create new pipeline template
 ```
 
 ## Architecture
 
 ```
-dataforge/
+forgeflow/
 ├── core/                   # Base interfaces and utilities
 │   ├── connector.py        # BaseConnector interface
 │   ├── transformer.py      # BaseTransformer interface
@@ -187,8 +187,8 @@ dataforge/
 
 ```python
 from airflow import DAG
-from dataforge.airflow.operators import DataForgePipelineOperator
-from dataforge.airflow.sensors import DataForgeApiSensor
+from forgeflow.airflow.operators import ForgeFlowPipelineOperator
+from forgeflow.airflow.sensors import ForgeFlowApiSensor
 from datetime import datetime, timedelta
 
 default_args = {
@@ -205,13 +205,13 @@ with DAG(
     catchup=False,
 ) as dag:
 
-    check_api = DataForgeApiSensor(
+    check_api = ForgeFlowApiSensor(
         task_id='check_api_availability',
         pipeline_name='api_to_duckdb',
         timeout=300,
     )
 
-    run_pipeline = DataForgePipelineOperator(
+    run_pipeline = ForgeFlowPipelineOperator(
         task_id='ingest_data',
         pipeline_name='api_to_duckdb',
         config_path='config/pipelines.yaml',
@@ -225,7 +225,7 @@ with DAG(
 Start the server:
 
 ```bash
-uvicorn dataforge.api.main:app --reload
+uvicorn forgeflow.api.main:app --reload
 ```
 
 Access interactive documentation at `http://localhost:8000/docs`
@@ -239,12 +239,12 @@ Access interactive documentation at `http://localhost:8000/docs`
 
 ## Utilities
 
-DataForge includes utility modules for common ETL patterns:
+ForgeFlow includes utility modules for common ETL patterns:
 
 ### Retry Logic
 
 ```python
-from dataforge.core.retry import retry_async, RetryConfig
+from forgeflow.core.retry import retry_async, RetryConfig
 
 config = RetryConfig(
     max_attempts=3,
@@ -259,7 +259,7 @@ result = await retry_async(fetch_data, config, url="https://api.example.com")
 ### Rate Limiting
 
 ```python
-from dataforge.core.rate_limiter import RateLimiter
+from forgeflow.core.rate_limiter import RateLimiter
 
 limiter = RateLimiter(max_requests=100, time_window=60)
 await limiter.acquire()
@@ -269,7 +269,7 @@ await limiter.acquire()
 ### Caching
 
 ```python
-from dataforge.core.cache import MemoryCache
+from forgeflow.core.cache import MemoryCache
 
 cache = MemoryCache(ttl=3600)
 await cache.set("key", data)
@@ -279,7 +279,7 @@ cached = await cache.get("key")
 ### Data Validation
 
 ```python
-from dataforge.core.validation import SchemaValidator
+from forgeflow.core.validation import SchemaValidator
 from pydantic import BaseModel
 
 class UserSchema(BaseModel):
@@ -291,12 +291,12 @@ validator = SchemaValidator(UserSchema)
 is_valid, validated_data, errors = validator.validate(data)
 ```
 
-## Extending DataForge
+## Extending ForgeFlow
 
 ### Custom Connector
 
 ```python
-from dataforge.core.connector import BaseConnector
+from forgeflow.core.connector import BaseConnector
 
 class CustomConnector(BaseConnector):
     def validate_config(self) -> None:
@@ -317,7 +317,7 @@ class CustomConnector(BaseConnector):
 ### Custom Transformer
 
 ```python
-from dataforge.core.transformer import BaseTransformer
+from forgeflow.core.transformer import BaseTransformer
 
 class CustomTransformer(BaseTransformer):
     def validate_config(self) -> None:
@@ -331,7 +331,7 @@ class CustomTransformer(BaseTransformer):
 ### Custom Sink
 
 ```python
-from dataforge.core.sink import BaseSink
+from forgeflow.core.sink import BaseSink
 
 class CustomSink(BaseSink):
     def validate_config(self) -> None:
@@ -352,7 +352,7 @@ class CustomSink(BaseSink):
 pytest
 
 # With coverage
-pytest --cov=dataforge --cov-report=html
+pytest --cov=forgeflow --cov-report=html
 
 # Specific test
 pytest tests/test_pipeline_loader.py
@@ -377,7 +377,7 @@ ruff check .
 ruff format .
 
 # Type checking
-mypy dataforge/
+mypy forgeflow/
 ```
 
 ## Design Principles

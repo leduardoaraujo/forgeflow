@@ -3,8 +3,8 @@ from datetime import datetime
 from pathlib import Path
 from typing import Any
 
-from dataforge.core.exceptions import SinkException
-from dataforge.core.sink import BaseSink
+from forgeflow.core.exceptions import SinkException
+from forgeflow.core.sink import BaseSink
 
 
 class FileSink(BaseSink):

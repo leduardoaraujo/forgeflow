@@ -3,8 +3,8 @@ from typing import Any
 
 import psycopg
 
-from dataforge.core.exceptions import SinkException
-from dataforge.core.sink import BaseSink
+from forgeflow.core.exceptions import SinkException
+from forgeflow.core.sink import BaseSink
 
 
 class PostgresSink(BaseSink):

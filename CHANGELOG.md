@@ -56,11 +56,11 @@ Initial release
 - Connection pooling
 
 #### CLI
-- `dataforge run` - Execute pipelines
-- `dataforge list` - List configured pipelines
-- `dataforge test` - Test pipeline connections
-- `dataforge validate` - Validate configuration
-- `dataforge init` - Create pipeline templates
+- `forgeflow run` - Execute pipelines
+- `forgeflow list` - List configured pipelines
+- `forgeflow test` - Test pipeline connections
+- `forgeflow validate` - Validate configuration
+- `forgeflow init` - Create pipeline templates
 - Rich terminal output
 
 #### API
@@ -72,9 +72,9 @@ Initial release
 - Interactive API documentation
 
 #### Airflow Integration
-- DataForgePipelineOperator for task execution
-- DataForgeHook for Airflow connections
-- DataForgeApiSensor for API monitoring
+- ForgeFlowPipelineOperator for task execution
+- ForgeFlowHook for Airflow connections
+- ForgeFlowApiSensor for API monitoring
 - Example DAG implementations
 
 #### Advanced Features

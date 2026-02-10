@@ -1,6 +1,6 @@
-"""Example Airflow DAG using DataForge operators.
+"""Example Airflow DAG using ForgeFlow operators.
 
-This DAG demonstrates how to use DataForge operators, hooks, and sensors
+This DAG demonstrates how to use ForgeFlow operators, hooks, and sensors
 in an Airflow workflow for orchestrating ETL pipelines.
 """
 
@@ -12,11 +12,11 @@ try:
 except ImportError:
     raise ImportError("Apache Airflow is required. Install with: pip install data-forge[airflow]")
 
-from dataforge.airflow import DataForgeOperator, DataForgeSensor, DataForgeValidateOperator
+from forgeflow.airflow import ForgeFlowOperator, ForgeFlowSensor, ForgeFlowValidateOperator
 
 # Default arguments for the DAG
 default_args = {
-    "owner": "dataforge",
+    "owner": "forgeflow",
     "depends_on_past": False,
     "start_date": datetime(2024, 1, 1),
     "email_on_failure": False,
@@ -27,16 +27,16 @@ default_args = {
 
 # Create the DAG
 with DAG(
-    "dataforge_example_pipeline",
+    "forgeflow_example_pipeline",
     default_args=default_args,
-    description="Example DataForge ETL pipeline",
+    description="Example ForgeFlow ETL pipeline",
     schedule_interval=timedelta(days=1),
     catchup=False,
-    tags=["dataforge", "etl", "example"],
+    tags=["forgeflow", "etl", "example"],
 ) as dag:
 
     # Task 1: Wait for configuration to be ready
-    wait_for_config = DataForgeSensor(
+    wait_for_config = ForgeFlowSensor(
         task_id="wait_for_config",
         pipeline_name="example_pipeline",
         config_path="config/pipelines.yaml",
@@ -45,14 +45,14 @@ with DAG(
     )
 
     # Task 2: Validate pipeline configuration
-    validate_pipeline = DataForgeValidateOperator(
+    validate_pipeline = ForgeFlowValidateOperator(
         task_id="validate_pipeline",
         pipeline_name="example_pipeline",
         config_path="config/pipelines.yaml",
     )
 
-    # Task 3: Run the DataForge pipeline
-    run_pipeline = DataForgeOperator(
+    # Task 3: Run the ForgeFlow pipeline
+    run_pipeline = ForgeFlowOperator(
         task_id="run_example_pipeline",
         pipeline_name="example_pipeline",
         config_path="config/pipelines.yaml",
@@ -83,16 +83,16 @@ with DAG(
 
 # Example 2: Multiple pipelines in parallel
 with DAG(
-    "dataforge_parallel_pipelines",
+    "forgeflow_parallel_pipelines",
     default_args=default_args,
-    description="Run multiple DataForge pipelines in parallel",
+    description="Run multiple ForgeFlow pipelines in parallel",
     schedule_interval="0 2 * * *",  # Run at 2 AM daily
     catchup=False,
-    tags=["dataforge", "etl", "parallel"],
+    tags=["forgeflow", "etl", "parallel"],
 ) as parallel_dag:
 
     # Validate all pipelines first
-    validate_all = DataForgeValidateOperator(
+    validate_all = ForgeFlowValidateOperator(
         task_id="validate_all_pipelines",
         pipeline_name=None,  # Validates all pipelines
         config_path="config/pipelines.yaml",
@@ -101,7 +101,7 @@ with DAG(
     # Run multiple pipelines in parallel
     pipeline_tasks = []
     for pipeline_name in ["pipeline_1", "pipeline_2", "pipeline_3"]:
-        task = DataForgeOperator(
+        task = ForgeFlowOperator(
             task_id=f"run_{pipeline_name}",
             pipeline_name=pipeline_name,
             config_path="config/pipelines.yaml",

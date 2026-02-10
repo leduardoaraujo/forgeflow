@@ -1,4 +1,4 @@
-# Contributing to DataForge
+# Contributing to ForgeFlow
 
 ## Development Setup
 
@@ -34,7 +34,7 @@ pre-commit install
 pytest
 
 # With coverage
-pytest --cov=dataforge --cov-report=html
+pytest --cov=forgeflow --cov-report=html
 
 # Specific test file
 pytest tests/test_pipeline_loader.py
@@ -70,7 +70,7 @@ ruff check .
 ruff check --fix .
 
 # Type checking
-mypy dataforge/
+mypy forgeflow/
 ```
 
 ### Code Standards
@@ -143,7 +143,7 @@ JSON normalizer now correctly handles null values without raising exceptions.
 
 ### New Connector
 
-1. Create file in `dataforge/connectors/`
+1. Create file in `forgeflow/connectors/`
 2. Inherit from `BaseConnector`
 3. Implement required methods
 4. Add configuration validation
@@ -153,8 +153,8 @@ JSON normalizer now correctly handles null values without raising exceptions.
 Example:
 
 ```python
-from dataforge.core.connector import BaseConnector
-from dataforge.core.exceptions import ConnectorException
+from forgeflow.core.connector import BaseConnector
+from forgeflow.core.exceptions import ConnectorException
 
 class MyConnector(BaseConnector):
     def validate_config(self) -> None:
@@ -174,7 +174,7 @@ class MyConnector(BaseConnector):
 
 ### New Transformer
 
-1. Create file in `dataforge/transformers/`
+1. Create file in `forgeflow/transformers/`
 2. Inherit from `BaseTransformer`
 3. Implement transformation logic
 4. Add tests with various inputs
@@ -182,7 +182,7 @@ class MyConnector(BaseConnector):
 
 ### New Sink
 
-1. Create file in `dataforge/sinks/`
+1. Create file in `forgeflow/sinks/`
 2. Inherit from `BaseSink`
 3. Implement write logic
 4. Handle connection pooling
@@ -192,7 +192,7 @@ class MyConnector(BaseConnector):
 ## Project Structure
 
 ```
-dataforge/
+forgeflow/
 ├── core/           # Base interfaces
 ├── connectors/     # Source implementations
 ├── transformers/   # Transformation logic

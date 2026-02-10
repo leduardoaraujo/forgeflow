@@ -1,4 +1,4 @@
-"""Airflow operators for DataForge integration."""
+"""Airflow operators for ForgeFlow integration."""
 
 from typing import Any, Optional
 
@@ -13,15 +13,15 @@ except ImportError:
         "Install with: pip install data-forge[airflow]"
     )
 
-from dataforge.airflow.hooks import DataForgeHook
+from forgeflow.airflow.hooks import ForgeFlowHook
 
 logger = structlog.get_logger()
 
 
-class DataForgeOperator(BaseOperator):
-    """Operator to execute DataForge pipelines in Airflow.
+class ForgeFlowOperator(BaseOperator):
+    """Operator to execute ForgeFlow pipelines in Airflow.
 
-    This operator runs a DataForge pipeline as an Airflow task, with support
+    This operator runs a ForgeFlow pipeline as an Airflow task, with support
     for XCom, templating, and Airflow's task lifecycle.
 
     Args:
@@ -31,7 +31,7 @@ class DataForgeOperator(BaseOperator):
         validate_before_run: Validate pipeline config before execution
 
     Example:
-        run_etl = DataForgeOperator(
+        run_etl = ForgeFlowOperator(
             task_id='extract_api_data',
             pipeline_name='my_api_pipeline',
             config_path='config/pipelines.yaml',
@@ -61,7 +61,7 @@ class DataForgeOperator(BaseOperator):
         self.validate_before_run = validate_before_run
 
     def execute(self, context: dict[str, Any]) -> Optional[dict[str, Any]]:
-        """Execute the DataForge pipeline.
+        """Execute the ForgeFlow pipeline.
 
         Args:
             context: Airflow task context
@@ -69,7 +69,7 @@ class DataForgeOperator(BaseOperator):
         Returns:
             Execution result (if push_to_xcom is True)
         """
-        hook = DataForgeHook(config_path=self.config_path)
+        hook = ForgeFlowHook(config_path=self.config_path)
 
         # Validate pipeline configuration if requested
         if self.validate_before_run:
@@ -88,8 +88,8 @@ class DataForgeOperator(BaseOperator):
         return None
 
 
-class DataForgeValidateOperator(BaseOperator):
-    """Operator to validate DataForge pipeline configurations.
+class ForgeFlowValidateOperator(BaseOperator):
+    """Operator to validate ForgeFlow pipeline configurations.
 
     This operator validates one or more pipelines without executing them,
     useful for pre-flight checks in DAGs.
@@ -99,7 +99,7 @@ class DataForgeValidateOperator(BaseOperator):
         config_path: Path to pipeline configuration file
 
     Example:
-        validate = DataForgeValidateOperator(
+        validate = ForgeFlowValidateOperator(
             task_id='validate_config',
             pipeline_name='my_pipeline',
         )
@@ -130,7 +130,7 @@ class DataForgeValidateOperator(BaseOperator):
         Returns:
             Validation result
         """
-        hook = DataForgeHook(config_path=self.config_path)
+        hook = ForgeFlowHook(config_path=self.config_path)
 
         if self.pipeline_name:
             # Validate specific pipeline

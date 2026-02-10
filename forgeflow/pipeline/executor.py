@@ -1,12 +1,12 @@
 import structlog
 
-from dataforge.connectors import HttpConnector, RestConnector
-from dataforge.core.connector import BaseConnector
-from dataforge.core.exceptions import PipelineException
-from dataforge.core.sink import BaseSink
-from dataforge.core.transformer import BaseTransformer
-from dataforge.sinks import DuckDBSink, FileSink, PostgresSink
-from dataforge.transformers import JsonNormalizer
+from forgeflow.connectors import HttpConnector, RestConnector
+from forgeflow.core.connector import BaseConnector
+from forgeflow.core.exceptions import PipelineException
+from forgeflow.core.sink import BaseSink
+from forgeflow.core.transformer import BaseTransformer
+from forgeflow.sinks import DuckDBSink, FileSink, PostgresSink
+from forgeflow.transformers import JsonNormalizer
 
 logger = structlog.get_logger()
 
