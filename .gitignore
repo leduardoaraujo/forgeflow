@@ -1,39 +1,36 @@
+# Python
 __pycache__/
 *.py[cod]
 *$py.class
 *.so
+*.egg-info/
 .Python
+
+# Virtual environments
 env/
 venv/
 ENV/
+.venv
+
+# Build
 build/
 dist/
-*.egg-info/
+
+# Testing
 .pytest_cache/
 .coverage
 htmlcov/
+
+# Environment
 .env
-.venv
-EXAMPLES.MD
+
+# Data
+data/
 *.log
 *.duckdb
 *.duckdb.wal
-data/
-teste_pipeline_loader.py
-teste_transformers.py 
-ARCHITECTURE.md
-CONTEXT.md
-CONTRIBUTING.md
-LICENSE
-SECURITY.md
-CODE_OF_CONDUCT.md
-CONTRIBUTING.md
-CONTRIBUTING.md
-QUICKSTART.md
-ROADMAP.md
-SECURITY.md
-TESTING.md
-TRAINING.md
-USAGE.md
-USAGE.md
+
+# Development
 .claude/
+test_*.py
+teste_*.py
