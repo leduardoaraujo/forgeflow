@@ -1,7 +1,7 @@
 <div align="center">
   <img src="logo_forgeflow.svg" alt="DataForge Logo" width="400"/>
 
-  # DataForge
+  # Forgeflow
 
   Modern ETL Framework for API Ingestion and Data Distribution
 
@@ -15,7 +15,7 @@
 
 ## Overview
 
-DataForge is a modern ETL framework designed for API data ingestion, transformation, and distribution. Built with async-first architecture using Python 3.11+, it provides a declarative YAML-based configuration system for building robust data pipelines.
+Forgeflow is a modern ETL framework designed for API data ingestion, transformation, and distribution. Built with async-first architecture using Python 3.11+, it provides a declarative YAML-based configuration system for building robust data pipelines.
 
 ## Key Features
 
