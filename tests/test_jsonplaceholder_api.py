@@ -1,7 +1,7 @@
 """Quick test script for JSONPlaceholder API integration."""
 import asyncio
 import json
-from dataforge.connectors.http import HttpConnector
+from forgeflow.connectors.http import HttpConnector
 
 
 async def test_jsonplaceholder_api():

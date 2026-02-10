@@ -2,7 +2,7 @@ from pathlib import Path
 
 import yaml
 
-from dataforge.core.exceptions import ConfigurationException
+from forgeflow.core.exceptions import ConfigurationException
 
 
 class PipelineLoader:

@@ -6,8 +6,8 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 
 import structlog
 
-from dataforge.pipeline.executor import PipelineExecutor
-from dataforge.pipeline.loader import PipelineLoader
+from forgeflow.pipeline.executor import PipelineExecutor
+from forgeflow.pipeline.loader import PipelineLoader
 
 structlog.configure(
     processors=[
@@ -16,7 +16,6 @@ structlog.configure(
         structlog.dev.ConsoleRenderer(),
     ]
 )
-
 
 async def main():
     if len(sys.argv) < 2:

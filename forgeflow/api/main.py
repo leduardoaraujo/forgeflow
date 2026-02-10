@@ -2,8 +2,8 @@ import structlog
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 
-from dataforge.pipeline.executor import PipelineExecutor
-from dataforge.pipeline.loader import PipelineLoader
+from forgeflow.pipeline.executor import PipelineExecutor
+from forgeflow.pipeline.loader import PipelineLoader
 
 structlog.configure(
     processors=[

@@ -1,4 +1,4 @@
-"""Airflow sensors for DataForge integration."""
+"""Airflow sensors for ForgeFlow integration."""
 
 from typing import Any
 
@@ -11,13 +11,13 @@ except ImportError:
         "Install with: pip install data-forge[airflow]"
     )
 
-from dataforge.airflow.hooks import DataForgeHook
+from forgeflow.airflow.hooks import ForgeFlowHook
 
 
-class DataForgeSensor(BaseSensorOperator):
-    """Sensor to check if DataForge pipeline configuration is valid.
+class ForgeFlowSensor(BaseSensorOperator):
+    """Sensor to check if ForgeFlow pipeline configuration is valid.
 
-    This sensor waits until a DataForge pipeline configuration becomes
+    This sensor waits until a ForgeFlow pipeline configuration becomes
     available and valid, useful for coordinating tasks that depend on
     pipeline configuration changes.
 
@@ -28,7 +28,7 @@ class DataForgeSensor(BaseSensorOperator):
         timeout: Timeout in seconds before sensor fails
 
     Example:
-        wait_for_config = DataForgeSensor(
+        wait_for_config = ForgeFlowSensor(
             task_id='wait_for_pipeline',
             pipeline_name='my_pipeline',
             poke_interval=60,
@@ -61,7 +61,7 @@ class DataForgeSensor(BaseSensorOperator):
         Returns:
             True if pipeline is valid, False otherwise
         """
-        hook = DataForgeHook(config_path=self.config_path)
+        hook = ForgeFlowHook(config_path=self.config_path)
 
         try:
             self.log.info(f"Checking pipeline configuration: {self.pipeline_name}")
@@ -73,10 +73,10 @@ class DataForgeSensor(BaseSensorOperator):
             return False
 
 
-class DataForgeConnectionSensor(BaseSensorOperator):
-    """Sensor to check if DataForge configuration file is accessible.
+class ForgeFlowConnectionSensor(BaseSensorOperator):
+    """Sensor to check if ForgeFlow configuration file is accessible.
 
-    This sensor waits until the DataForge configuration file becomes
+    This sensor waits until the ForgeFlow configuration file becomes
     available, useful for workflows where configs are generated dynamically.
 
     Args:
@@ -85,7 +85,7 @@ class DataForgeConnectionSensor(BaseSensorOperator):
         timeout: Timeout in seconds before sensor fails
 
     Example:
-        wait_for_config_file = DataForgeConnectionSensor(
+        wait_for_config_file = ForgeFlowConnectionSensor(
             task_id='wait_for_config_file',
             config_path='config/pipelines.yaml',
             poke_interval=30,
@@ -115,7 +115,7 @@ class DataForgeConnectionSensor(BaseSensorOperator):
         Returns:
             True if configuration is accessible, False otherwise
         """
-        hook = DataForgeHook(config_path=self.config_path)
+        hook = ForgeFlowHook(config_path=self.config_path)
 
         success, message = hook.test_connection()
 

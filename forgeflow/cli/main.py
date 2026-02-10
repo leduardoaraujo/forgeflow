@@ -1,4 +1,4 @@
-"""Main CLI entry point for DataForge."""
+"""Main CLI entry point for ForgeFlow."""
 
 import asyncio
 import sys
@@ -12,18 +12,18 @@ from rich.panel import Panel
 from rich.progress import Progress, SpinnerColumn, TextColumn
 from rich.table import Table
 
-from dataforge.pipeline.executor import PipelineExecutor
-from dataforge.pipeline.loader import PipelineLoader
+from forgeflow.pipeline.executor import PipelineExecutor
+from forgeflow.pipeline.loader import PipelineLoader
 
 logger = structlog.get_logger()
 console = Console()
 
 
 @click.group()
-@click.version_option(version="0.1.0", prog_name="dataforge")
+@click.version_option(version="0.1.0", prog_name="forgeflow")
 @click.pass_context
 def cli(ctx):
-    """DataForge - Modern ETL framework for API ingestion and data transformation."""
+    """ForgeFlow - Modern ETL framework for API ingestion and data transformation."""
     ctx.ensure_object(dict)
 
 
@@ -41,8 +41,8 @@ def run(pipeline_name: str, config: str, verbose: bool):
     """Run a specific pipeline by name.
 
     Example:
-        dataforge run my_pipeline
-        dataforge run my_pipeline --config custom/pipelines.yaml
+        forgeflow run my_pipeline
+        forgeflow run my_pipeline --config custom/pipelines.yaml
     """
     if verbose:
         structlog.configure(
@@ -98,8 +98,8 @@ def list(config: str):
     """List all available pipelines.
 
     Example:
-        dataforge list
-        dataforge list --config custom/pipelines.yaml
+        forgeflow list
+        forgeflow list --config custom/pipelines.yaml
     """
     try:
         pipelines = PipelineLoader.load_from_file(config)
@@ -148,8 +148,8 @@ def validate(config: str):
     """Validate pipeline configuration.
 
     Example:
-        dataforge validate
-        dataforge validate --config custom/pipelines.yaml
+        forgeflow validate
+        forgeflow validate --config custom/pipelines.yaml
     """
     console.print(f"[cyan]Validating configuration:[/cyan] {config}")
 
@@ -199,8 +199,8 @@ def init(name: str, output: str):
     """Initialize a new pipeline configuration template.
 
     Example:
-        dataforge init my_pipeline
-        dataforge init my_pipeline --output custom/pipelines.yaml
+        forgeflow init my_pipeline
+        forgeflow init my_pipeline --output custom/pipelines.yaml
     """
     template = f"""pipelines:
   - name: {name}
@@ -239,7 +239,7 @@ def init(name: str, output: str):
             f.write(template)
 
     console.print(f"[bold green]✅ Pipeline template created:[/bold green] {output}")
-    console.print(f"[cyan]Edit the file and run:[/cyan] dataforge run {name}")
+    console.print(f"[cyan]Edit the file and run:[/cyan] forgeflow run {name}")
 
 
 @cli.command()
@@ -255,7 +255,7 @@ def test(pipeline_name: str, config: str):
     """Test pipeline connections without running full pipeline.
 
     Example:
-        dataforge test my_pipeline
+        forgeflow test my_pipeline
     """
     console.print(f"[cyan]Testing pipeline:[/cyan] {pipeline_name}")
 
@@ -268,7 +268,7 @@ def test(pipeline_name: str, config: str):
             sys.exit(1)
 
         # Test connector
-        from dataforge.connectors import HttpConnector, RestConnector
+        from forgeflow.connectors import HttpConnector, RestConnector
 
         connector_config = pipeline.get("connector", {})
         connector_type = connector_config.get("type")

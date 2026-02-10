@@ -1,4 +1,4 @@
-"""Airflow hooks for DataForge integration."""
+"""Airflow hooks for ForgeFlow integration."""
 
 import asyncio
 from typing import Any, Optional
@@ -13,23 +13,23 @@ except ImportError:
         "Install with: pip install data-forge[airflow]"
     )
 
-from dataforge.pipeline.executor import PipelineExecutor
-from dataforge.pipeline.loader import PipelineLoader
+from forgeflow.pipeline.executor import PipelineExecutor
+from forgeflow.pipeline.loader import PipelineLoader
 
 logger = structlog.get_logger()
 
 
-class DataForgeHook(BaseHook):
-    """Hook for interacting with DataForge pipelines.
+class ForgeFlowHook(BaseHook):
+    """Hook for interacting with ForgeFlow pipelines.
 
-    This hook provides methods to load, validate, and execute DataForge
+    This hook provides methods to load, validate, and execute ForgeFlow
     pipelines from within Airflow tasks.
 
     Args:
         config_path: Path to the pipeline configuration YAML file
 
     Example:
-        hook = DataForgeHook(config_path='config/pipelines.yaml')
+        hook = ForgeFlowHook(config_path='config/pipelines.yaml')
         result = hook.run_pipeline('my_pipeline')
     """
 
@@ -86,7 +86,7 @@ class DataForgeHook(BaseHook):
         return pipeline
 
     def run_pipeline(self, pipeline_name: str) -> dict[str, Any]:
-        """Execute a DataForge pipeline.
+        """Execute a ForgeFlow pipeline.
 
         Args:
             pipeline_name: Name of the pipeline to execute
@@ -150,7 +150,7 @@ class DataForgeHook(BaseHook):
         return True
 
     def test_connection(self) -> tuple[bool, str]:
-        """Test if DataForge configuration is accessible.
+        """Test if ForgeFlow configuration is accessible.
 
         Returns:
             Tuple of (success: bool, message: str)

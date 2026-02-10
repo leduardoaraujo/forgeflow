@@ -1,7 +1,7 @@
 import pytest
 
-from dataforge.core.exceptions import ConfigurationException
-from dataforge.pipeline.loader import PipelineLoader
+from forgeflow.core.exceptions import ConfigurationException
+from forgeflow.pipeline.loader import PipelineLoader
 
 
 def test_validate_pipeline_valid():
