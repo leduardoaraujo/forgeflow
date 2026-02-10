@@ -1,7 +1,7 @@
 <div align="center">
   <img src="logo_forgeflow.svg" alt="DataForge Logo" width="400"/>
 
-  # Forgeflow
+  # DataForge
 
   Modern ETL Framework for API Ingestion and Data Distribution
 
@@ -15,20 +15,19 @@
 
 ## Overview
 
-Forgeflow is a modern ETL framework designed for API data ingestion, transformation, and distribution. Built with async-first architecture using Python 3.11+, it provides a declarative YAML-based configuration system for building robust data pipelines.
+DataForge is a modern ETL framework designed for API data ingestion, transformation, and distribution. Built with async-first architecture using Python 3.11+, it provides a declarative YAML-based configuration system for building robust data pipelines.
 
 ## Key Features
 
-- Flexible connector system for HTTP and REST APIs
-- Pluggable transformers for data normalization and processing
-- Multiple sink support (PostgreSQL, DuckDB, BigQuery, S3, MongoDB, Snowflake)
-- Async-first architecture with httpx and asyncio
-- Built-in retry mechanism with exponential backoff
-- Rate limiting and caching support
+- HTTP and REST API connectors with async support
+- JSON normalization and flattening
+- Multiple sinks: PostgreSQL, DuckDB, and file-based storage
+- Declarative YAML configuration
 - Rich CLI with interactive commands
-- FastAPI REST server for pipeline management
+- FastAPI REST server
 - Apache Airflow integration
 - Structured logging with structlog
+- Built-in retry, rate limiting, and caching utilities
 - Type-safe with full type hints
 
 ## Installation
@@ -42,19 +41,19 @@ pip install -e .
 ### With Optional Dependencies
 
 ```bash
-# Database connectors
-pip install -e ".[postgres,duckdb]"
+# PostgreSQL support
+pip install -e ".[postgres]"
 
-# Cloud services
-pip install -e ".[bigquery,s3,snowflake]"
+# DuckDB support
+pip install -e ".[duckdb]"
 
-# API server and orchestration
-pip install -e ".[api,airflow]"
+# API server
+pip install -e ".[api]"
 
-# All features
-pip install -e ".[all]"
+# Airflow integration
+pip install -e ".[airflow]"
 
-# Development
+# Development tools
 pip install -r requirements-dev.txt
 ```
 
@@ -131,14 +130,14 @@ dataforge init <name>       # Create new pipeline template
 
 ```
 dataforge/
-├── core/                   # Base interfaces and core functionality
+├── core/                   # Base interfaces and utilities
 │   ├── connector.py        # BaseConnector interface
 │   ├── transformer.py      # BaseTransformer interface
 │   ├── sink.py             # BaseSink interface
-│   ├── retry.py            # Retry logic with tenacity
-│   ├── rate_limiter.py     # Rate limiting
-│   ├── cache.py            # Caching layer
-│   └── validation.py       # Data validation
+│   ├── retry.py            # Retry utilities
+│   ├── rate_limiter.py     # Rate limiting utilities
+│   ├── cache.py            # Caching utilities
+│   └── validation.py       # Data validation utilities
 ├── connectors/             # Data source implementations
 │   ├── http.py             # Generic HTTP connector
 │   └── rest.py             # RESTful API connector
@@ -161,30 +160,28 @@ dataforge/
     └── main.py             # CLI implementation
 ```
 
-## Connectors
+## Components
 
-| Name | Description | Configuration |
-|------|-------------|---------------|
-| HTTP | Generic HTTP requests with custom headers and parameters | `url`, `method`, `headers`, `params`, `timeout` |
-| REST | RESTful API client with base URL pattern | `base_url`, `endpoint`, `auth` |
+### Connectors
 
-## Transformers
+| Name | Description | Status |
+|------|-------------|--------|
+| HTTP | Generic HTTP requests with headers and parameters | Implemented |
+| REST | RESTful API client with base URL pattern | Implemented |
 
-| Name | Description | Configuration |
-|------|-------------|---------------|
-| JSON Normalizer | Flatten nested JSON structures | `flatten`, `separator`, `timestamp_field` |
+### Transformers
 
-## Sinks
+| Name | Description | Status |
+|------|-------------|--------|
+| JSON Normalizer | Flatten nested JSON structures | Implemented |
 
-| Name | Description | Installation |
-|------|-------------|--------------|
-| PostgreSQL | Relational database storage | `pip install -e ".[postgres]"` |
-| DuckDB | Embedded analytical database | `pip install -e ".[duckdb]"` |
-| BigQuery | Google Cloud data warehouse | `pip install -e ".[bigquery]"` |
-| S3 | AWS object storage | `pip install -e ".[s3]"` |
-| MongoDB | NoSQL document database | `pip install -e ".[mongodb]"` |
-| Snowflake | Cloud data warehouse | `pip install -e ".[snowflake]"` |
-| File | Local file storage (JSON, Parquet, CSV) | Built-in |
+### Sinks
+
+| Name | Description | Installation | Status |
+|------|-------------|--------------|--------|
+| PostgreSQL | Relational database storage | `pip install -e ".[postgres]"` | Implemented |
+| DuckDB | Embedded analytical database | `pip install -e ".[duckdb]"` | Implemented |
+| File | Local file storage (JSON, JSONL, Parquet) | Built-in | Implemented |
 
 ## Airflow Integration
 
@@ -240,55 +237,58 @@ Access interactive documentation at `http://localhost:8000/docs`
 - `POST /pipelines/{name}/run` - Execute pipeline
 - `GET /pipelines/{name}/status` - Check pipeline status
 
-## Advanced Configuration
+## Utilities
 
-### Retry Mechanism
+DataForge includes utility modules for common ETL patterns:
 
-```yaml
-connector:
-  type: http
-  config:
-    url: https://api.example.com/data
-    retry:
-      max_attempts: 3
-      backoff_factor: 2
-      max_delay: 60
+### Retry Logic
+
+```python
+from dataforge.core.retry import retry_async, RetryConfig
+
+config = RetryConfig(
+    max_attempts=3,
+    min_wait=1.0,
+    max_wait=60.0,
+    multiplier=2.0
+)
+
+result = await retry_async(fetch_data, config, url="https://api.example.com")
 ```
 
 ### Rate Limiting
 
-```yaml
-connector:
-  type: http
-  config:
-    url: https://api.example.com/data
-    rate_limit:
-      calls: 100
-      period: 60
+```python
+from dataforge.core.rate_limiter import RateLimiter
+
+limiter = RateLimiter(max_requests=100, time_window=60)
+await limiter.acquire()
+# Make API request
 ```
 
 ### Caching
 
-```yaml
-connector:
-  type: http
-  config:
-    url: https://api.example.com/data
-    cache:
-      enabled: true
-      ttl: 3600
-      backend: memory
+```python
+from dataforge.core.cache import MemoryCache
+
+cache = MemoryCache(ttl=3600)
+await cache.set("key", data)
+cached = await cache.get("key")
 ```
 
 ### Data Validation
 
-```yaml
-transformer:
-  type: json_normalizer
-  config:
-    validate:
-      schema: schemas/schema.json
-      strict: true
+```python
+from dataforge.core.validation import SchemaValidator
+from pydantic import BaseModel
+
+class UserSchema(BaseModel):
+    id: int
+    name: str
+    email: str
+
+validator = SchemaValidator(UserSchema)
+is_valid, validated_data, errors = validator.validate(data)
 ```
 
 ## Extending DataForge
@@ -387,6 +387,18 @@ mypy dataforge/
 - **Declarative Configuration**: YAML-based, version-controlled
 - **Async First**: Built on asyncio for performance
 - **Structured Logging**: No print statements, structured logs only
+
+## Roadmap
+
+Future planned features:
+
+- Additional connectors: GraphQL, Kafka, WebSocket, gRPC
+- Additional sinks: BigQuery, S3, MongoDB, Snowflake
+- Schema mapping transformer
+- Data aggregation transformer
+- Redis cache backend
+- Metrics and monitoring
+- Web dashboard
 
 ## Contributing
 
