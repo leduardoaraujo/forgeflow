@@ -77,7 +77,7 @@ def run(pipeline_name: str, config: str, verbose: bool):
             asyncio.run(executor.execute(pipeline))
             progress.update(task, completed=True)
 
-        console.print(f"[bold green]✅ Pipeline '{pipeline_name}' completed successfully[/bold green]")
+        console.print(f"[bold green]Pipeline '{pipeline_name}' completed successfully[/bold green]")
 
     except Exception as e:
         console.print(f"[bold red]❌ Pipeline failed:[/bold red] {e}")
@@ -116,7 +116,7 @@ def list(config: str):
         table.add_column("Sinks", style="blue")
 
         for pipeline in pipelines:
-            enabled = "✓" if pipeline.get("enabled", True) else "✗"
+            enabled = "Yes" if pipeline.get("enabled", True) else "No"
             connector_type = pipeline.get("connector", {}).get("type", "N/A")
             transformer_type = pipeline.get("transformer", {}).get("type", "N/A")
             sinks = ", ".join([s.get("type", "unknown") for s in pipeline.get("sinks", [])])
