@@ -1,0 +1,72 @@
+site_name: ForgeFlow Documentation
+site_description: Modern ETL framework for API ingestion and data distribution
+site_author: Luiz Araujo
+site_url: https://forgeflow.readthedocs.io
+
+repo_name: leduardoaraujo/forgeflow
+repo_url: https://github.com/leduardoaraujo/forgeflow
+edit_uri: edit/main/docs/
+
+theme:
+  name: material
+  palette:
+    - scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.expand
+    - navigation.top
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+    - content.code.annotate
+
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.tabbed:
+      alternate_style: true
+  - tables
+  - attr_list
+  - md_in_html
+
+nav:
+  - Home: index.md
+  - Getting Started:
+    - Installation: guides/getting-started.md
+    - Core Concepts: guides/core-concepts.md
+  - User Guide:
+    - Configuration: guides/configuration.md
+    - Extending ForgeFlow: guides/extending.md
+  - Examples:
+    - Overview: examples/index.md
+  - API Reference:
+    - Overview: api/index.md
+  - Contributing: ../CONTRIBUTING.md
+
+plugins:
+  - search
+  - autorefs
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/leduardoaraujo/forgeflow
+    - icon: fontawesome/brands/python
+      link: https://pypi.org/project/forgeflow/

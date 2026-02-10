@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="logo_forgeflow.svg" alt="ForgeFlow Logo" width="400"/>
+  <img src="docs/assets/logo_forgeflow.svg" alt="ForgeFlow Logo" width="400"/>
 
   # ForgeFlow
 

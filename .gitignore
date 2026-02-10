@@ -5,6 +5,7 @@ __pycache__/
 *.so
 *.egg-info/
 .Python
+*.pyc
 
 # Virtual environments
 env/
@@ -15,14 +16,17 @@ ENV/
 # Build
 build/
 dist/
+*.egg-info
 
 # Testing
 .pytest_cache/
 .coverage
 htmlcov/
+.tox/
 
 # Environment
 .env
+.pypirc
 
 # Data
 data/
@@ -30,7 +34,23 @@ data/
 *.duckdb
 *.duckdb.wal
 
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Documentation
+docs/_build/
+docs/.doctrees/
+site/
+
 # Development
 .claude/
 test_*.py
 teste_*.py
+
+# OS
+.DS_Store
+Thumbs.db
