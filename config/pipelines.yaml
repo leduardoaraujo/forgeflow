@@ -40,3 +40,76 @@ pipelines:
         config:
           database: data/local.duckdb
           table: posts
+
+  - name: covid19_italy
+    enabled: false
+    connector:
+      type: http
+      config:
+        url: https://covid-19-data.p.rapidapi.com/country/code?format=json&code=it
+        method: GET
+        headers:
+          x-rapidapi-host: covid-19-data.p.rapidapi.com
+          # x-rapidapi-key: YOUR_KEY_HERE
+        timeout: 30
+    transformer:
+      type: json_normalizer
+      config:
+        flatten: true
+    sinks:
+      - type: file
+        config:
+          path: data/covid19
+          format: json
+      - type: duckdb
+        config:
+          database: data/covid19.duckdb
+          table: italy_data
+
+  - name: cat_facts
+    enabled: false
+    connector:
+      type: http
+      config:
+        url: https://cat-fact.herokuapp.com/facts
+        method: GET
+        headers:
+          Accept: application/json
+        timeout: 30
+    transformer:
+      type: json_normalizer
+      config:
+        flatten: true
+    sinks:
+      - type: file
+        config:
+          path: data/cat_facts
+          format: json
+      - type: duckdb
+        config:
+          database: data/cat_facts.duckdb
+          table: facts
+
+  - name: jsonplaceholder_posts
+    enabled: true
+    connector:
+      type: http
+      config:
+        url: https://jsonplaceholder.typicode.com/posts
+        method: GET
+        headers:
+          Accept: application/json
+        timeout: 30
+    transformer:
+      type: json_normalizer
+      config:
+        flatten: true
+    sinks:
+      - type: file
+        config:
+          path: data/jsonplaceholder
+          format: json
+      - type: duckdb
+        config:
+          database: data/jsonplaceholder.duckdb
+          table: posts
