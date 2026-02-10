@@ -31,13 +31,6 @@ classifiers = [
     "Framework :: FastAPI",
     "Typing :: Typed",
 ]
-
-[project.urls]
-Homepage = "https://github.com/leduardoaraujo/forgeflow"
-Documentation = "https://forgeflow.readthedocs.io"
-Repository = "https://github.com/leduardoaraujo/forgeflow"
-Issues = "https://github.com/leduardoaraujo/forgeflow/issues"
-
 dependencies = [
     "httpx>=0.27.0",
     "pydantic>=2.9.0",
@@ -48,6 +41,12 @@ dependencies = [
     "rich>=13.7.0",
     "tenacity>=8.2.0",
 ]
+
+[project.urls]
+Homepage = "https://github.com/leduardoaraujo/forgeflow"
+Documentation = "https://forgeflow.readthedocs.io"
+Repository = "https://github.com/leduardoaraujo/forgeflow"
+Issues = "https://github.com/leduardoaraujo/forgeflow/issues"
 
 [project.optional-dependencies]
 # Core extras
