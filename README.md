@@ -166,22 +166,27 @@ forgeflow/
 
 | Name | Description | Status |
 |------|-------------|--------|
-| HTTP | Generic HTTP requests with headers and parameters | Implemented |
-| REST | RESTful API client with base URL pattern | Implemented |
+| HTTP | Generic HTTP requests with headers and parameters | ✅ Implemented |
+| REST | RESTful API client with base URL pattern | ✅ Implemented |
 
 ### Transformers
 
 | Name | Description | Status |
 |------|-------------|--------|
-| JSON Normalizer | Flatten nested JSON structures | Implemented |
+| JSON Normalizer | Flatten nested JSON structures | ✅ Implemented |
+| Filter | Filter data based on conditions (eq, gt, contains, etc.) | ✅ **NEW** |
+| Schema Mapper | Map fields between schemas with type conversion | ✅ **NEW** |
 
 ### Sinks
 
 | Name | Description | Installation | Status |
 |------|-------------|--------------|--------|
-| PostgreSQL | Relational database storage | `pip install -e ".[postgres]"` | Implemented |
-| DuckDB | Embedded analytical database | `pip install -e ".[duckdb]"` | Implemented |
-| File | Local file storage (JSON, JSONL, Parquet) | Built-in | Implemented |
+| PostgreSQL | Relational database storage | `pip install -e ".[postgres]"` | ✅ Implemented |
+| DuckDB | Embedded analytical database | `pip install -e ".[duckdb]"` | ✅ Implemented |
+| File | Local file storage (JSON, JSONL, Parquet) | Built-in | ✅ Implemented |
+| BigQuery | Google Cloud data warehouse | `pip install -e ".[bigquery]"` | ✅ **NEW** |
+| S3 | AWS S3 object storage (JSON, JSONL, Parquet) | `pip install -e ".[s3]"` | ✅ **NEW** |
+| MongoDB | NoSQL document database | `pip install -e ".[mongodb]"` | ✅ **NEW** |
 
 ## Airflow Integration
 

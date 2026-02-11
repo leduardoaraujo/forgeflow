@@ -54,3 +54,5 @@ teste_*.py
 # OS
 .DS_Store
 Thumbs.db
+
+phase1-component
