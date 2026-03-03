@@ -1,4 +1,35 @@
 pipelines:
+  - name: rick_and_morty_characters
+    enabled: true
+    connector:
+      type: http
+      config:
+        url: https://rickandmortyapi.com/api/character
+        method: GET
+        headers:
+          Accept: application/json
+        timeout: 30
+    transformer:
+      type: json_normalizer
+      config:
+        results_key: results          # extrai o array de dentro do envelope
+        include_fields:               # só esses campos
+          - id
+          - name
+          - status
+          - species
+          - gender
+          - episode
+        list_join:                    # converte lista de URLs de episódios em string
+          separator: "|"
+          fields:
+            - episode
+    sinks:
+      - type: file
+        config:
+          path: data/rick_and_morty
+          format: csv
+
   - name: example_http_to_postgres
     enabled: true
     schedule: "0 */6 * * *"
