@@ -18,26 +18,30 @@ class DuckDBSink(BaseSink):
         if missing:
             raise SinkException(f"Missing required config: {missing}")
 
-    async def write(self, data: dict[str, Any]) -> None:
+    async def write(self, data: list[dict[str, Any]] | dict[str, Any]) -> None:
         if not self.connection:
             self._connect()
 
+        rows = data if isinstance(data, list) else [data]
+        if not rows:
+            return
+
         try:
             table = self.config["table"]
-            columns = list(data.keys())
-            values = list(data.values())
-
+            columns = list(rows[0].keys())
             placeholders = ", ".join(["?"] * len(columns))
             columns_str = ", ".join(columns)
 
             self.connection.execute(
                 f"CREATE TABLE IF NOT EXISTS {table} AS SELECT * FROM (VALUES ({placeholders})) AS t({columns_str}) WHERE false",
-                values,
+                list(rows[0].values()),
             )
 
-            self.connection.execute(
-                f"INSERT INTO {table} ({columns_str}) VALUES ({placeholders})", values
-            )
+            for row in rows:
+                self.connection.execute(
+                    f"INSERT INTO {table} ({columns_str}) VALUES ({placeholders})",
+                    list(row.values()),
+                )
 
         except duckdb.Error as e:
             raise SinkException(f"DuckDB write failed: {e}") from e
