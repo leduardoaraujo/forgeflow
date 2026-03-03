@@ -24,11 +24,12 @@ class FilterTransformer(BaseTransformer):
         "endswith": lambda a, b: a.endswith(b) if isinstance(a, str) else False,
     }
 
-    def transform(self, data: Any) -> dict[str, Any] | None:
+    def transform(self, data: Any) -> list[dict[str, Any]] | dict[str, Any] | None:
         """
         Filter data based on conditions.
 
         Returns the data if it passes all conditions, None otherwise.
+        For lists, returns only items that pass all conditions.
 
         Config structure:
         {
@@ -39,6 +40,14 @@ class FilterTransformer(BaseTransformer):
             "logic": "AND"  # or "OR"
         }
         """
+        if isinstance(data, list):
+            filtered = [self._filter_item(item) for item in data]
+            return [item for item in filtered if item is not None]
+        if not isinstance(data, dict):
+            raise TransformerException(f"Expected dict or list, got {type(data).__name__}")
+        return self._filter_item(data)
+
+    def _filter_item(self, data: Any) -> dict[str, Any] | None:
         if not isinstance(data, dict):
             raise TransformerException(f"Expected dict, got {type(data).__name__}")
 

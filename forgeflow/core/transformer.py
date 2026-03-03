@@ -7,5 +7,5 @@ class BaseTransformer(ABC):
         self.config = config or {}
 
     @abstractmethod
-    def transform(self, data: Any) -> dict[str, Any]:
+    def transform(self, data: Any) -> list[dict[str, Any]] | dict[str, Any]:
         pass

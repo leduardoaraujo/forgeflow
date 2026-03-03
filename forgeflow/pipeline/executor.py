@@ -5,8 +5,8 @@ from forgeflow.core.connector import BaseConnector
 from forgeflow.core.exceptions import PipelineException
 from forgeflow.core.sink import BaseSink
 from forgeflow.core.transformer import BaseTransformer
-from forgeflow.sinks import DuckDBSink, FileSink, PostgresSink
-from forgeflow.transformers import JsonNormalizer
+from forgeflow.sinks import BigQuerySink, DuckDBSink, FileSink, MongoDBSink, PostgresSink, S3Sink
+from forgeflow.transformers import FilterTransformer, JsonNormalizer, SchemaMapper
 
 logger = structlog.get_logger()
 
@@ -19,12 +19,17 @@ class PipelineExecutor:
 
     TRANSFORMERS = {
         "json_normalizer": JsonNormalizer,
+        "filter": FilterTransformer,
+        "schema_mapper": SchemaMapper,
     }
 
     SINKS = {
         "postgres": PostgresSink,
         "duckdb": DuckDBSink,
         "file": FileSink,
+        "bigquery": BigQuerySink,
+        "s3": S3Sink,
+        "mongodb": MongoDBSink,
     }
 
     async def execute(self, pipeline: dict) -> None:

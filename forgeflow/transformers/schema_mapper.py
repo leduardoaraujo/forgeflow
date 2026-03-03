@@ -17,7 +17,7 @@ class SchemaMapper(BaseTransformer):
         "dict": dict,
     }
 
-    def transform(self, data: Any) -> dict[str, Any]:
+    def transform(self, data: Any) -> list[dict[str, Any]] | dict[str, Any]:
         """
         Transform data by mapping fields to a new schema.
 
@@ -46,6 +46,13 @@ class SchemaMapper(BaseTransformer):
             "strict": false  # Fail on missing required fields
         }
         """
+        if isinstance(data, list):
+            return [self._map_item(item) for item in data]
+        if not isinstance(data, dict):
+            raise TransformerException(f"Expected dict or list, got {type(data).__name__}")
+        return self._map_item(data)
+
+    def _map_item(self, data: Any) -> dict[str, Any]:
         if not isinstance(data, dict):
             raise TransformerException(f"Expected dict, got {type(data).__name__}")
 
