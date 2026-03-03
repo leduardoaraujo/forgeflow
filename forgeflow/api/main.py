@@ -13,7 +13,7 @@ structlog.configure(
 )
 
 app = FastAPI(
-    title="Data-Forge",
+    title="ForgeFlow",
     description="Central de APIs padronizada para ingestão e distribuição de dados",
     version="0.1.0",
 )
